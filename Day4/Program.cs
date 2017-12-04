@@ -18,38 +18,22 @@ namespace Day4
 
         static bool Valid1(string inp)
         {
-            bool valid = true;
-            Dictionary<string, int> dic = new Dictionary<string, int>();
-            inp.Split(null).ToList().ForEach(pass =>
-            {
-                    if (dic.ContainsKey(pass))
-                        valid = false;
-
-                    dic[pass] = 1;
-
-            });
-
-            return valid;
+            var data = inp.Split(null).ToList();
+            return data.Count == data.Distinct().Count();
         }
-   
+
 
         static bool Valid2(string inp)
         {
-            bool valid = true;
             Dictionary<string, int> dic = new Dictionary<string, int>();
             foreach (var pass in inp.Split(null).ToList())
             {
-                var perm = pass.Permutations();
-                foreach (var p in perm)
-                {
-                    var permutatedPassword = new String(p.ToArray());
-                    if (dic.ContainsKey(permutatedPassword))
-                        return false;
-                }
+                var perm = pass.Permutations().Select(p=>new String(p.ToArray()));
+                if (perm.Any(p => dic.ContainsKey(p)))
+                    return false;
                 dic[pass] = 1;
             };
-
-            return valid;
+            return true;
         }
 
         [Fact]
@@ -66,29 +50,13 @@ namespace Day4
 
         static void Main(string[] args)
         {
-            int res = 0;
-            string input = @"d:\dev_prvt\aoc-2017\Aoc2017\Day4\input.txt";
+            string input = @"..\..\input.txt";
             var lines = File.ReadLines(input).ToList();
 
-            var i = 0;
-            foreach (var l in lines)
-            {
-                Console.WriteLine($"{i} {l}");
-                if (Valid1(l)) res++;
-                i++;
-            }
-            Debug.WriteLine(res);
+            Console.WriteLine(lines.Where(Valid1).Count());
+            Console.WriteLine(lines.Where(Valid2).Count());
 
-
-            i = 0;
-            res = 0;
-            foreach (var l in lines)
-            {
-                Console.WriteLine($"{i} {l}");
-                if (Valid2(l)) res++;
-                i++;
-            }
-            Debug.WriteLine(res);
+            Console.ReadKey();
 
         }
     }
