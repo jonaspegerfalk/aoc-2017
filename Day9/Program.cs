@@ -30,37 +30,35 @@ namespace Day9
                 {
                     i = data2.IndexOf('>', i);
                     continue;
-
                 }
                 data22 += data2[i];
             }
             return data22.Replace(",", "");
         }
 
-        static int CountGroups(string data, int score)
+
+
+        static int CountGroups(string d)
         {
-            Console.WriteLine($"{score} {new string(' ', score)} {data}");
-            if (data.Length == 2) return score;
-            var open = 0;
-            var res = score;
-            var openTag = 1;
-            for (var i = 1; i < data.Length; i++)
-                {
-                    if (data[i] == '{') open++; else open--;
-                    if (open == 0)
-                {
-                    res += CountGroups(data.Substring(openTag, i-openTag+1), score + 1);
-                    openTag = i+1;
-                }
+            int score = 0;
+            void CountGroupRec(string data, int level)
+            {
+                Console.WriteLine($"{score} {level} {new string(' ', level)} {data}");
+                if (data.Length == 1) return;
+                if (data[0] == '{') { score += level; CountGroupRec(data.Substring(1), level + 1); }
+                else CountGroupRec(data.Substring(1), level - 1);
             }
-            return res;
+            CountGroupRec(d, 1);
+            return score;
         }
+
+
         static void Main(string[] args)
         {
             string input = @"..\..\input.txt";
             var lines = File.ReadLines(input).ToList();
 
-            Console.WriteLine(CountGroups(CleanData(lines[0]), 1));
+            Console.WriteLine(CountGroups(CleanData(lines[0])));
             Console.WriteLine(CountGarbage(lines[0]));
             Console.ReadKey();
         }
@@ -69,14 +67,14 @@ namespace Day9
         [Fact]
         public static void Test()
         {
-            Assert.Equal(1, CountGroups("{}", 1));
-            Assert.Equal(6, CountGroups("{{{}}}",1));
-            Assert.Equal(5, CountGroups(CleanData("{{},{}}"),1));
-            Assert.Equal(16, CountGroups(CleanData("{{{},{},{{}}}}"), 1));
-            Assert.Equal(1, CountGroups(CleanData("{<a>,<a>,<a>,<a>}"),1));
-            Assert.Equal(9, CountGroups(CleanData("{{<!!>},{<!!>},{<!!>},{<!!>}}"), 1));
-            Assert.Equal(9, CountGroups(CleanData("{{<ab>},{<ab>},{<ab>},{<ab>}}"), 1));
-            Assert.Equal(3, CountGroups(CleanData("{{<a!>},{<a!>},{<a!>},{<ab>}}"), 1));
+            Assert.Equal(1, CountGroups("{}"));
+            Assert.Equal(6, CountGroups("{{{}}}"));
+            Assert.Equal(5, CountGroups(CleanData("{{},{}}")));
+            Assert.Equal(16, CountGroups(CleanData("{{{},{},{{}}}}")));
+            Assert.Equal(1, CountGroups(CleanData("{<a>,<a>,<a>,<a>}")));
+            Assert.Equal(9, CountGroups(CleanData("{{<!!>},{<!!>},{<!!>},{<!!>}}")));
+            Assert.Equal(9, CountGroups(CleanData("{{<ab>},{<ab>},{<ab>},{<ab>}}")));
+            Assert.Equal(3, CountGroups(CleanData("{{<a!>},{<a!>},{<a!>},{<ab>}}")));
 
         }
         [Fact]
@@ -108,8 +106,8 @@ namespace Day9
             {
                 if (data2[i] == '<')
                 {
-                    var end  = data2.IndexOf('>', i);
-                    total += (end - i-1);
+                    var end = data2.IndexOf('>', i);
+                    total += (end - i - 1);
                     i = end;
                     continue;
 
