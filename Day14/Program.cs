@@ -12,26 +12,24 @@ namespace Day14
 {
     public class Program
     {
-
         static List<string> data = new List<string>();
         static List<List<int>> area = new List<List<int>>();
 
         static void Main(string[] args)
         {
             string input = @"ugkiagan";
-            for (var i = 0; i < 128; i++)
-            {
-                 data.Add(Knot($"{input}-{i}"));
-            }
-            for (var i = 0; i<128; i++)
-            {
-                area.Add(Enumerable.Repeat(0, 128).ToList());
-            }
+            data = Enumerable.Range(0, 128)
+                               .Select(i => $"{input}-{i}")
+                               .Select(Knot)
+                               .ToList();
+            area = Enumerable.Range(0, 128)
+                               .Select(i => Enumerable.Repeat(0, 128).ToList())
+                               .ToList();
 
             var n = 1;
             for (var i = 0; i < 128; i++)
             {
-                
+
                 for (var j = 0; j < 128; j++)
                 {
                     if (data[i][j] == '1' && area[i][j] == 0)
@@ -42,7 +40,8 @@ namespace Day14
                 }
             }
 
-            Console.WriteLine(n-1);
+            Console.WriteLine(data.Sum(a => a.Count(c => c == '1')));
+            Console.WriteLine(n - 1);
             Console.ReadKey();
         }
 
@@ -52,9 +51,9 @@ namespace Day14
             if (data[x][y] == '0' || area[x][y] != 0) return;
             area[x][y] = n;
             Walk(x + 1, y, n);
-            Walk(x, y+1, n);
-            Walk(x -1, y, n);
-            Walk(x, y-1, n);
+            Walk(x, y + 1, n);
+            Walk(x - 1, y, n);
+            Walk(x, y - 1, n);
         }
 
         private static List<int> CreateInput(string data)
@@ -93,7 +92,7 @@ namespace Day14
                 d = d.Skip(16).ToList();
             }
 
-            return string.Join("",denseHashList.Select(v => Convert.ToString(v, 2).PadLeft(8).Replace(" ", "0"))) ;
+            return string.Join("", denseHashList.Select(v => v.ToBinaryString(8)));
         }
     }
 }
