@@ -65,9 +65,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="input.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Util\AocUtil.csproj">
       <Project>{9749ee5f-fe69-4e2b-a9c8-64910e9855ea}</Project>
       <Name>AocUtil</Name>
