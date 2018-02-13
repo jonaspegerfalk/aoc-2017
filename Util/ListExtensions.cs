@@ -8,6 +8,17 @@ namespace AocUtil
 {
     public static class ListExtensions
     {
+        public static void TryAdd<Tkey, TValue>(this Dictionary<Tkey, TValue> source, Tkey k, TValue v)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            if (!source.ContainsKey(k))
+            {
+                source[k] = v;
+            }
+        }
+
         public static IEnumerable<IEnumerable<T>> Permutations<T>(this IEnumerable<T> source)
         {
             if (source == null)
