@@ -5,10 +5,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0DAD222D-BF15-42A3-B9C2-821BB6C65092}</ProjectGuid>
+    <ProjectGuid>{F3F46460-7354-4DA1-8E1D-69FB2EE6ECAD}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Day4</RootNamespace>
-    <AssemblyName>Day4</AssemblyName>
+    <RootNamespace>Day22</RootNamespace>
+    <AssemblyName>Day22</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -66,9 +66,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="input.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Util\AocUtil.csproj">
